@@ -137,7 +137,7 @@
             <?php if (!empty($latestImages)): ?>
                 <?php foreach ($latestImages as $img): ?>
                     <div class="image-card masonry-item">
-                        <img src="<?= BASE_URL ?>/<?= Security::esc($img['filepath_thumbnail']) ?>" alt="<?= Security::esc($img['alt_text']) ?>" loading="lazy">
+                        <?= ImageProcessor::generatePictureTag($img) ?>
                         <div class="image-overlay">
                             <div>
                                 <span style="display:block; font-weight:600;"><?= Security::esc($img['title']) ?></span>

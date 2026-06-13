@@ -72,7 +72,10 @@ class Router {
         }
 
         $controllerName = ucfirst($parts[0] ?? 'Home') . 'Controller';
-        $actionName = $parts[1] ?? 'index';
+
+        // Convert dash-case to camelCase for method names (e.g., bulk-upload -> bulkUpload)
+        $actionRaw = $parts[1] ?? 'index';
+        $actionName = lcfirst(str_replace('-', '', ucwords($actionRaw, '-')));
 
         if (class_exists($controllerName)) {
             $controller = new $controllerName();

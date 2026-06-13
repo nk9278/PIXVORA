@@ -6,14 +6,16 @@ class Image {
             alt_text, focus_keywords, tags, caption, canonical_url, og_title,
             og_description, twitter_title, twitter_description, short_seo_description,
             image_credit, image_license, filename, filepath_original, filepath_webp, filepath_thumbnail,
-            mime_type, file_size, width, height, is_transparent, orientation,
+            filepath_small, filepath_medium, filepath_large,
+            mime_type, file_size, width, height, is_transparent, orientation, dominant_color,
             is_featured, show_on_homepage, is_trending, is_recommended, is_wallpaper, is_png
         ) VALUES (
             :category_id, :subcategory_id, :title, :slug, :meta_title, :meta_description,
             :alt_text, :focus_keywords, :tags, :caption, :canonical_url, :og_title,
             :og_description, :twitter_title, :twitter_description, :short_seo_description,
             :image_credit, :image_license, :filename, :filepath_original, :filepath_webp, :filepath_thumbnail,
-            :mime_type, :file_size, :width, :height, :is_transparent, :orientation,
+            :filepath_small, :filepath_medium, :filepath_large,
+            :mime_type, :file_size, :width, :height, :is_transparent, :orientation, :dominant_color,
             :is_featured, :show_on_homepage, :is_trending, :is_recommended, :is_wallpaper, :is_png
         )";
 

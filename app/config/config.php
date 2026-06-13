@@ -37,3 +37,4 @@ define('ALLOWED_MIME_TYPES', [
 define('UPLOAD_DIR', PUBLIC_DIR . '/uploads/originals');
 define('WEBP_DIR', PUBLIC_DIR . '/uploads/webp');
 define('THUMB_DIR', PUBLIC_DIR . '/uploads/thumbnails');
+define('RESPONSIVE_DIR', PUBLIC_DIR . '/uploads/responsive');
