@@ -163,6 +163,136 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--space-md);
 }
 
+/* Advanced Search UI */
+.search-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    padding: var(--space-md) 0;
+}
+
+@media (min-width: 1024px) {
+    .search-layout {
+        flex-direction: row;
+    }
+}
+
+.search-sidebar {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .search-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 100px;
+        height: max-content;
+    }
+}
+
+.search-results-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.filter-group {
+    margin-bottom: var(--space-lg);
+}
+
+.filter-group h4 {
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    color: var(--clr-black);
+}
+
+.color-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+}
+
+.color-circle.active {
+    border-color: var(--clr-accent-red);
+    transform: scale(1.1);
+}
+
+.live-suggestions {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--clr-white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    margin-top: 10px;
+    z-index: 1000;
+    overflow: hidden;
+    display: none;
+}
+
+.live-suggestions.active {
+    display: block;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--clr-border);
+    color: var(--clr-text-main);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: var(--clr-soft-white);
+}
+
+.suggestion-item img {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* Skeleton Loading */
+.skeleton-box {
+    background: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.skeleton-box::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
 /* Image Detail Page Layout */
 .image-detail-layout {
     display: grid;

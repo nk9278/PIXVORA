@@ -38,4 +38,9 @@ $router->add('download/{slug}/{format}', ['controller' => 'DownloadController', 
 $router->add('api/generate-png/{slug}', ['controller' => 'PngController', 'action' => 'generate']);
 $router->add('download-png/{slug}', ['controller' => 'PngController', 'action' => 'download']);
 
+// Phase 8 Search routes
+$router->add('search', ['controller' => 'SearchController', 'action' => 'index']);
+$router->add('search/{query}', ['controller' => 'SearchController', 'action' => 'index']);
+$router->add('api/search-suggest', ['controller' => 'SearchController', 'action' => 'suggest']);
+
 $router->dispatch($_SERVER['REQUEST_URI']);

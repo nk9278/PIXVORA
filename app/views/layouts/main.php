@@ -68,7 +68,14 @@
             </nav>
 
             <div class="nav-actions">
-                <button style="background:none;border:none;cursor:pointer;"><i data-lucide="search"></i></button>
+                <div style="position:relative;">
+                    <form action="<?= BASE_URL ?>/search" method="GET" style="position:relative;" id="globalSearchForm">
+                        <i data-lucide="search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--clr-text-muted); width:18px;"></i>
+                        <input type="text" name="q" id="globalSearchInput" placeholder="Search..." autocomplete="off" style="padding:10px 15px 10px 40px; border-radius:var(--radius-pill); border:1px solid var(--clr-border); background:var(--clr-soft-white); font-family:var(--font-primary); font-size:0.95rem; width:200px; outline:none; transition:width 0.3s;">
+                    </form>
+                    <div class="live-suggestions" id="liveSuggestBox"></div>
+                </div>
+
                 <button style="background:none;border:none;cursor:pointer;"><i data-lucide="moon"></i></button>
                 <a href="#" class="btn btn-primary" style="display:none; @media (min-width: 768px){display:inline-block;}">Join Free</a>
             </div>
@@ -138,6 +145,52 @@
 
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+        });
+
+        // Live Search Logic
+        const searchInput = document.getElementById('globalSearchInput');
+        const suggestBox = document.getElementById('liveSuggestBox');
+        let suggestTimeout = null;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(suggestTimeout);
+            const query = e.target.value.trim();
+
+            if (query.length < 2) {
+                suggestBox.classList.remove('active');
+                return;
+            }
+
+            suggestTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`<?= BASE_URL ?>/api/search-suggest?q=${encodeURIComponent(query)}`);
+                    const data = await response.json();
+
+                    if (data.length > 0) {
+                        let html = '';
+                        data.forEach(item => {
+                            html += `
+                                <a href="${item.url}" class="suggestion-item">
+                                    <img src="${item.thumb}" alt="${item.title}">
+                                    <span style="font-weight:500;">${item.title}</span>
+                                </a>
+                            `;
+                        });
+                        suggestBox.innerHTML = html;
+                        suggestBox.classList.add('active');
+                    } else {
+                        suggestBox.classList.remove('active');
+                    }
+                } catch (err) {
+                    console.error('Search suggest error', err);
+                }
+            }, 300);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
+                suggestBox.classList.remove('active');
+            }
         });
     </script>
 </body>
