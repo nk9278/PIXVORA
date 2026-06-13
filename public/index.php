@@ -25,6 +25,27 @@ spl_autoload_register(function ($class) {
 // Initialize configuration
 require_once APP_DIR . '/config/config.php';
 
+// Global Exception Handler
+set_exception_handler(function($e) {
+    if (class_exists('Logger')) {
+        Logger::error("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+    } else {
+        error_log("Uncaught Exception: " . $e->getMessage());
+    }
+
+    if (!headers_sent()) {
+        header("HTTP/1.1 500 Internal Server Error");
+    }
+
+    if (APP_ENV === 'development') {
+        echo "<h1>500 Internal Server Error</h1><p>" . htmlspecialchars($e->getMessage()) . "</p>";
+    } else {
+        // Fallback or generic error UI could be required here if routing fails
+        echo "<h1>Something went wrong.</h1><p>We're looking into it.</p>";
+    }
+    exit;
+});
+
 // Front Controller Session Start
 session_start();
 
@@ -42,6 +63,15 @@ $router->add('download-png/{slug}', ['controller' => 'PngController', 'action' =
 $router->add('search', ['controller' => 'SearchController', 'action' => 'index']);
 $router->add('search/{query}', ['controller' => 'SearchController', 'action' => 'index']);
 $router->add('api/search-suggest', ['controller' => 'SearchController', 'action' => 'suggest']);
+
+// Phase 12 Legal routes
+$router->add('privacy-policy', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'Privacy Policy']);
+$router->add('terms', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'Terms of Service']);
+$router->add('license', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'License']);
+$router->add('dmca', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'DMCA']);
+$router->add('commercial-use', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'Commercial Use']);
+$router->add('about', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'About Us']);
+$router->add('contact', ['controller' => 'HomeController', 'action' => 'legal', 'page' => 'Contact']);
 
 // Phase 10 Blog CMS routes
 $router->add('blog', ['controller' => 'BlogController', 'action' => 'index']);

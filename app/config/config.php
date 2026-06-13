@@ -8,13 +8,14 @@ define('DB_CHARSET', 'utf8mb4');
 
 // Application Configuration
 define('APP_NAME', 'Pixvora');
-define('APP_ENV', 'development'); // development or production
-define('BASE_URL', 'http://localhost:8000');
+define('APP_ENV', 'production'); // Forced to production for Phase 12
+define('BASE_URL', 'https://trypixvora.com');
 
-// Session Configuration
+// Session Configuration & Security
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
-// ini_set('session.cookie_secure', 1); // Require HTTPS
+ini_set('session.cookie_secure', 1); // Require HTTPS
+ini_set('session.cookie_samesite', 'Strict'); // CSRF defense in depth
 
 // Error Reporting
 if (APP_ENV === 'development') {
@@ -23,7 +24,9 @@ if (APP_ENV === 'development') {
     error_reporting(E_ALL);
 } else {
     ini_set('display_errors', 0);
-    error_reporting(0);
+    ini_set('log_errors', 1);
+    ini_set('error_log', APP_DIR . '/logs/php_errors.log');
+    error_reporting(E_ALL);
 }
 
 // Allowed MIME types for uploads

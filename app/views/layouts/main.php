@@ -14,17 +14,19 @@
     <meta property="og:description" content="<?= htmlspecialchars($og_description ?? $meta_description ?? '') ?>">
     <meta property="og:type" content="<?= isset($is_image_page) ? 'article' : 'website' ?>">
     <meta property="og:url" content="<?= htmlspecialchars($canonical_url ?? BASE_URL) ?>">
-    <?php if(!empty($og_image)): ?>
-    <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>">
-    <?php endif; ?>
+    <?php
+    $social_preview = !empty($og_image) ? $og_image : BASE_URL . '/assets/img/logo.png';
+    ?>
+    <meta property="og:image" content="<?= htmlspecialchars($social_preview) ?>">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= htmlspecialchars($twitter_title ?? $meta_title ?? 'Pixvora') ?>">
     <meta name="twitter:description" content="<?= htmlspecialchars($twitter_description ?? $meta_description ?? '') ?>">
-    <?php if(!empty($og_image)): ?>
-    <meta name="twitter:image" content="<?= htmlspecialchars($og_image) ?>">
-    <?php endif; ?>
+    <meta name="twitter:image" content="<?= htmlspecialchars($social_preview) ?>">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/logo.png">
 
     <!-- Structured Data -->
     <?php if(!empty($schema_markup)): ?>

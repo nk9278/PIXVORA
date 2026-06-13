@@ -86,7 +86,17 @@ class Router {
         }
 
         // 404
-        header("HTTP/1.0 404 Not Found");
-        echo "404 Not Found";
+        self::serve404();
+    }
+
+    public static function serve404() {
+        if (!headers_sent()) {
+            header("HTTP/1.0 404 Not Found");
+        }
+        $meta_title = "404 Not Found | Pixvora";
+        $meta_description = "The page you are looking for does not exist.";
+        $content_view = APP_DIR . '/views/home/404.php';
+        require_once APP_DIR . '/views/layouts/main.php';
+        exit;
     }
 }

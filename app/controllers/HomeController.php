@@ -94,4 +94,13 @@ class HomeController {
         $category_slug = $args['category_slug'] ?? '';
         echo "Phase 2: Category View for $category_slug (Coming soon in Phase 3)";
     }
+
+    public function legal($args) {
+        $pageTitle = $args['page'] ?? 'Legal Information';
+        $meta_title = "{$pageTitle} | Pixvora";
+        $meta_description = "Read our {$pageTitle} to understand how Pixvora operates, our licensing terms, and our commitment to providing free, high-quality AI assets.";
+
+        $content_view = APP_DIR . '/views/home/legal.php';
+        require_once APP_DIR . '/views/layouts/main.php';
+    }
 }
