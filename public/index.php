@@ -34,4 +34,8 @@ $router = new Router();
 // Phase 6 explicit download route
 $router->add('download/{slug}/{format}', ['controller' => 'DownloadController', 'action' => 'process']);
 
+// Phase 7 PNG routes
+$router->add('api/generate-png/{slug}', ['controller' => 'PngController', 'action' => 'generate']);
+$router->add('download-png/{slug}', ['controller' => 'PngController', 'action' => 'download']);
+
 $router->dispatch($_SERVER['REQUEST_URI']);

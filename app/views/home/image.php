@@ -59,10 +59,16 @@
             <div class="download-card glass" style="padding: 25px; border-radius: var(--radius-md); position:sticky; top: 100px;">
 
                 <!-- Main Download Button Trigger -->
-                <button id="openDownloadModalBtn" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; font-size:1.1rem; padding: 15px;">
+                <button id="openDownloadModalBtn" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; font-size:1.1rem; padding: 15px; margin-bottom:10px;">
                     <i data-lucide="download"></i> Download Image
                 </button>
-                <p style="text-align:center; font-size:0.85rem; color:var(--clr-text-muted); margin-top:10px;">
+
+                <!-- Transparent PNG Generator Trigger -->
+                <button id="generatePngBtn" class="btn btn-gradient-png" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; font-size:1.05rem; padding: 12px; border-radius:var(--radius-md); cursor:pointer;">
+                    <i data-lucide="scissors" style="width:18px;"></i> Transparent PNG
+                </button>
+
+                <p style="text-align:center; font-size:0.85rem; color:var(--clr-text-muted); margin-top:15px;">
                     <i data-lucide="check-circle" style="width:12px; height:12px; vertical-align:middle;"></i> <?= Security::esc($image['image_license'] ?: 'Free for commercial use') ?>
                 </p>
 
@@ -133,6 +139,30 @@
         </div>
     </div>
 </section>
+
+<!-- Transparent PNG Preview Modal -->
+<div id="pngModal" class="modal-overlay">
+    <div class="download-modal" style="max-width: 600px; flex-direction:column;">
+        <button id="closePngModalBtn" class="modal-close-btn" aria-label="Close modal">
+            <i data-lucide="x"></i>
+        </button>
+
+        <div style="padding: var(--space-lg); text-align:center; flex:1;">
+            <h2 style="margin-top:0; font-size:1.5rem; margin-bottom:5px;">Transparent PNG Ready</h2>
+            <p style="color:var(--clr-text-muted); font-size:0.95rem; margin-bottom:var(--space-md);">Background removed successfully.</p>
+
+            <div class="png-modal-checkerboard" id="pngPreviewContainer">
+                <img src="" id="pngPreviewImage" alt="Transparent PNG Preview">
+            </div>
+
+            <div style="margin-top: var(--space-md);">
+                <a href="#" id="pngDownloadLink" class="btn btn-primary" style="width:100%; padding:15px; font-size:1.1rem; display:flex; justify-content:center; align-items:center; gap:10px;">
+                    <i data-lucide="download"></i> Download PNG
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Advanced Download Modal -->
 <div id="downloadModal" class="modal-overlay">
@@ -295,6 +325,66 @@
         // Trigger download UX enhancements (close modal on click)
         finalDownloadBtn.addEventListener('click', () => {
             setTimeout(closeModal, 500);
+        });
+
+        // ----------------------------------------------------
+        // Phase 7: Transparent PNG Engine UI Logic
+        // ----------------------------------------------------
+        const generatePngBtn = document.getElementById('generatePngBtn');
+        const pngModal = document.getElementById('pngModal');
+        const closePngModalBtn = document.getElementById('closePngModalBtn');
+        const pngPreviewImage = document.getElementById('pngPreviewImage');
+        const pngDownloadLink = document.getElementById('pngDownloadLink');
+        const csrfToken = "<?= Security::generateCsrfToken() ?>";
+
+        generatePngBtn.addEventListener('click', async () => {
+            const originalContent = generatePngBtn.innerHTML;
+            generatePngBtn.innerHTML = '<span class="png-loading-spinner"></span> Removing Background...';
+            generatePngBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('csrf_token', csrfToken);
+
+            try {
+                const response = await fetch(`${baseUrl}/api/generate-png/${imageSlug}`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                const result = await response.json();
+
+                if (result.status) {
+                    pngPreviewImage.src = result.preview_url;
+                    pngDownloadLink.href = result.download_url;
+
+                    // Show modal
+                    pngModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    alert('Error generating PNG: ' + result.error);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Network error while communicating with the background removal engine.');
+            } finally {
+                generatePngBtn.innerHTML = originalContent;
+                generatePngBtn.disabled = false;
+            }
+        });
+
+        const closePngModal = () => {
+            pngModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        closePngModalBtn.addEventListener('click', closePngModal);
+        pngModal.addEventListener('click', (e) => {
+            if (e.target === pngModal) closePngModal();
+        });
+
+        pngDownloadLink.addEventListener('click', () => {
+            setTimeout(closePngModal, 500);
         });
     });
 </script>

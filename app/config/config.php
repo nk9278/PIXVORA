@@ -39,3 +39,4 @@ define('WEBP_DIR', PUBLIC_DIR . '/uploads/webp');
 define('THUMB_DIR', PUBLIC_DIR . '/uploads/thumbnails');
 define('RESPONSIVE_DIR', PUBLIC_DIR . '/uploads/responsive');
 define('GENERATED_DIR', PUBLIC_DIR . '/uploads/generated');
+define('PNG_DIR', PUBLIC_DIR . '/uploads/png');
