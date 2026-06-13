@@ -43,4 +43,15 @@ $router->add('search', ['controller' => 'SearchController', 'action' => 'index']
 $router->add('search/{query}', ['controller' => 'SearchController', 'action' => 'index']);
 $router->add('api/search-suggest', ['controller' => 'SearchController', 'action' => 'suggest']);
 
+// Phase 9 Programmatic SEO & Sitemap routes
+$router->add('tag/{slug}', ['controller' => 'SeoController', 'action' => 'tag']);
+$router->add('collection/{slug}', ['controller' => 'SeoController', 'action' => 'landing']);
+// Override HomeController default category with SeoController for richer pages
+$router->add('category/{slug}', ['controller' => 'SeoController', 'action' => 'category']);
+
+$router->add('robots.txt', ['controller' => 'SitemapController', 'action' => 'robots']);
+$router->add('sitemap.xml', ['controller' => 'SitemapController', 'action' => 'index']);
+$router->add('sitemap-images.xml', ['controller' => 'SitemapController', 'action' => 'images']);
+$router->add('sitemap-categories.xml', ['controller' => 'SitemapController', 'action' => 'categories']);
+
 $router->dispatch($_SERVER['REQUEST_URI']);

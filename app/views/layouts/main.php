@@ -99,38 +99,50 @@
             <div class="footer-grid">
                 <div>
                     <img src="<?= BASE_URL ?>/assets/img/logo.png" alt="Pixvora" style="height: 32px; filter: brightness(0) invert(1); margin-bottom: 20px;">
-                    <p class="text-muted">Premium AI assets, free stock images, and transparent PNGs for modern creators.</p>
+                    <p class="text-muted" style="margin-bottom: 20px;">Premium AI assets, free stock images, and transparent PNGs for modern creators.</p>
+                    <div style="display:flex; gap:15px; color:var(--clr-text-muted);">
+                        <a href="#"><i data-lucide="twitter"></i></a>
+                        <a href="#"><i data-lucide="instagram"></i></a>
+                        <a href="#"><i data-lucide="youtube"></i></a>
+                        <a href="#"><i data-lucide="linkedin"></i></a>
+                    </div>
                 </div>
                 <div>
-                    <h4>Discover</h4>
+                    <h4>Popular Searches</h4>
                     <ul>
-                        <li><a href="<?= BASE_URL ?>/free-ai-images/">AI Images</a></li>
-                        <li><a href="<?= BASE_URL ?>/transparent-png/">Transparent PNG</a></li>
-                        <li><a href="<?= BASE_URL ?>/wallpapers/">Wallpapers</a></li>
-                        <li><a href="<?= BASE_URL ?>/social-media/">Social Media Assets</a></li>
+                        <li><a href="<?= BASE_URL ?>/collection/free-ai-wallpapers/">Free AI Wallpapers</a></li>
+                        <li><a href="<?= BASE_URL ?>/collection/free-business-backgrounds/">Free Business Backgrounds</a></li>
+                        <li><a href="<?= BASE_URL ?>/collection/free-png-images/">Free PNG Images</a></li>
+                        <li><a href="<?= BASE_URL ?>/collection/instagram-backgrounds/">Instagram Backgrounds</a></li>
+                        <li><a href="<?= BASE_URL ?>/collection/youtube-thumbnail-backgrounds/">YouTube Thumbnails</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>Categories</h4>
+                    <h4>Explore Tags</h4>
                     <ul>
-                        <li><a href="<?= BASE_URL ?>/business/">Business</a></li>
-                        <li><a href="<?= BASE_URL ?>/technology/">Technology</a></li>
-                        <li><a href="<?= BASE_URL ?>/nature/">Nature</a></li>
-                        <li><a href="<?= BASE_URL ?>/gaming/">Gaming</a></li>
+                        <li><a href="<?= BASE_URL ?>/tag/startup-office/">Startup Office</a></li>
+                        <li><a href="<?= BASE_URL ?>/tag/neon-city/">Neon City 4K</a></li>
+                        <li><a href="<?= BASE_URL ?>/tag/minimal-workspace/">Minimal Workspace</a></li>
+                        <li><a href="<?= BASE_URL ?>/tag/luxury-gold/">Luxury Gold</a></li>
+                        <li><a href="<?= BASE_URL ?>/tag/cyberpunk/">Cyberpunk</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>Legal</h4>
+                    <h4>Legal & Info</h4>
                     <ul>
                         <li><a href="<?= BASE_URL ?>/license/">License</a></li>
+                        <li><a href="<?= BASE_URL ?>/commercial-use/">Commercial Use</a></li>
                         <li><a href="<?= BASE_URL ?>/terms/">Terms of Service</a></li>
                         <li><a href="<?= BASE_URL ?>/privacy-policy/">Privacy Policy</a></li>
                         <li><a href="<?= BASE_URL ?>/dmca/">DMCA</a></li>
+                        <li><a href="<?= BASE_URL ?>/contact/">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333;">
-                <p class="text-muted">&copy; <?= date('Y') ?> Pixvora. All rights reserved.</p>
+
+            <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #333; display:flex; flex-direction:column; align-items:center; gap:15px; @media(min-width:768px){flex-direction:row; justify-content:space-between;}">
+                <p class="text-muted" style="margin:0;">&copy; <?= date('Y') ?> Pixvora. All rights reserved.</p>
+                <p class="text-muted" style="margin:0; font-size:0.85rem;">Engineered for fast, reliable, copyright-free asset delivery.</p>
             </div>
         </div>
     </footer>
