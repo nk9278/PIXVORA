@@ -3,7 +3,7 @@
 define('ROOT_DIR', dirname(__DIR__));
 define('APP_DIR', ROOT_DIR . '/app');
 define('PUBLIC_DIR', ROOT_DIR . '/public');
-define('BASE_URL', 'http://localhost:8000'); // Assuming local development
+// BASE_URL defined in config
 
 // Basic autoloader
 spl_autoload_register(function ($class) {
@@ -21,6 +21,9 @@ spl_autoload_register(function ($class) {
         }
     }
 });
+
+// Initialize configuration
+require_once APP_DIR . '/config/config.php';
 
 // Front Controller Session Start
 session_start();
