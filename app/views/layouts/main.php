@@ -5,11 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($meta_title ?? 'Pixvora | Premium AI Assets & Free Stock Images') ?></title>
     <meta name="description" content="<?= htmlspecialchars($meta_description ?? '') ?>">
+    <?php if(!empty($canonical_url)): ?>
+    <link rel="canonical" href="<?= htmlspecialchars($canonical_url) ?>">
+    <?php endif; ?>
 
     <!-- Open Graph -->
     <meta property="og:title" content="<?= htmlspecialchars($og_title ?? $meta_title ?? 'Pixvora') ?>">
     <meta property="og:description" content="<?= htmlspecialchars($og_description ?? $meta_description ?? '') ?>">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="<?= isset($is_image_page) ? 'article' : 'website' ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($canonical_url ?? BASE_URL) ?>">
+    <?php if(!empty($og_image)): ?>
+    <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>">
+    <?php endif; ?>
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($twitter_title ?? $meta_title ?? 'Pixvora') ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($twitter_description ?? $meta_description ?? '') ?>">
+    <?php if(!empty($og_image)): ?>
+    <meta name="twitter:image" content="<?= htmlspecialchars($og_image) ?>">
+    <?php endif; ?>
+
+    <!-- Structured Data -->
+    <?php if(!empty($schema_markup)): ?>
+    <script type="application/ld+json">
+    <?= $schema_markup ?>
+    </script>
+    <?php endif; ?>
 
     <!-- Preconnect & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

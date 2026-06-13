@@ -163,6 +163,41 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--space-md);
 }
 
+/* Image Detail Page Layout */
+.image-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+    .image-detail-layout {
+        grid-template-columns: 1fr 350px;
+    }
+}
+
+.image-preview-container {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    max-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-preview-container picture, .image-preview-container img {
+    max-height: 80vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.detail-img {
+    border-radius: var(--radius-md);
+}
+
 /* Blog Cards */
 .blog-card {
     background: var(--clr-white);

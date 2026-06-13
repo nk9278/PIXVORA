@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS `admins` (
     `password_hash` VARCHAR(255) NOT NULL,
     `email` VARCHAR(100) NOT NULL UNIQUE,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `last_login` TIMESTAMP NULL
+    `last_login` TIMESTAMP NULL,
+    `failed_logins` INT DEFAULT 0,
+    `lockout_time` TIMESTAMP NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insert default admin

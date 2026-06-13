@@ -1,5 +1,14 @@
 <?php
 class AdminController {
+    public function index() {
+        if (Security::isLoggedIn()) {
+            header('Location: ' . BASE_URL . '/admin/dashboard');
+        } else {
+            header('Location: ' . BASE_URL . '/admin/login');
+        }
+        exit();
+    }
+
     public function login() {
         if (Security::isLoggedIn()) {
             header('Location: ' . BASE_URL . '/admin/dashboard');
@@ -15,7 +24,9 @@ class AdminController {
                 $password = $_POST['password'] ?? '';
 
                 $admin = Admin::authenticate($username, $password);
-                if ($admin) {
+                if ($admin === 'locked') {
+                    $error = 'Account is temporarily locked due to too many failed attempts. Try again in 15 minutes.';
+                } else if ($admin) {
                     session_regenerate_id(true);
                     $_SESSION['admin_id'] = $admin['id'];
                     $_SESSION['admin_username'] = $admin['username'];

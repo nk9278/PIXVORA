@@ -27,6 +27,19 @@ class Image {
         return Database::fetchAll("SELECT * FROM images ORDER BY created_at DESC LIMIT " . (int)$limit);
     }
 
+    public static function getBySlug($slug) {
+        $sql = "SELECT i.*, c.name as category_name, c.slug as category_slug
+                FROM images i
+                LEFT JOIN categories c ON i.category_id = c.id
+                WHERE i.slug = :slug LIMIT 1";
+        return Database::fetch($sql, [':slug' => $slug]);
+    }
+
+    public static function getRelated($categoryId, $excludeId, $limit = 8) {
+        $sql = "SELECT * FROM images WHERE category_id = :category_id AND id != :exclude_id ORDER BY created_at DESC LIMIT " . (int)$limit;
+        return Database::fetchAll($sql, [':category_id' => $categoryId, ':exclude_id' => $excludeId]);
+    }
+
     public static function getTotalCount() {
         $res = Database::fetch("SELECT COUNT(*) as cnt FROM images");
         return $res['cnt'] ?? 0;
