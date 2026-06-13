@@ -1,0 +1,10 @@
+<?php
+class Category {
+    public static function getAll() {
+        return Database::fetchAll("SELECT * FROM categories ORDER BY name ASC");
+    }
+
+    public static function getBySlug($slug) {
+        return Database::fetch("SELECT * FROM categories WHERE slug = :slug", [':slug' => $slug]);
+    }
+}
