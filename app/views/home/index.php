@@ -135,9 +135,9 @@
 
         <div class="masonry-grid">
             <?php if (!empty($latestImages)): ?>
-                <?php foreach ($latestImages as $img): ?>
+                <?php foreach ($latestImages as $index => $img): ?>
                     <div class="image-card masonry-item">
-                        <?= ImageProcessor::generatePictureTag($img) ?>
+                        <?= ImageProcessor::generatePictureTag($img, '', $index < 2) /* Load first 2 eagerly for LCP */ ?>
                         <div class="image-overlay">
                             <div>
                                 <span style="display:block; font-weight:600;"><?= Security::esc($img['title']) ?></span>

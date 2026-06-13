@@ -33,16 +33,18 @@
     </script>
     <?php endif; ?>
 
-    <!-- Preconnect & Fonts -->
+    <!-- Preconnect & Fonts (Preload critical font) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
 
     <!-- CSS -->
+    <link rel="preload" href="<?= BASE_URL ?>/assets/css/style.css" as="style">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 
     <!-- Icons (Lucide) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 

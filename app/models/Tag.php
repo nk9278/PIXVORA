@@ -5,6 +5,10 @@ class Tag {
      * This is useful for automated internal linking without needing a separate tags table join query.
      */
     public static function getPopular($limit = 20) {
+        $cacheKey = 'popular_tags_' . $limit;
+        $cached = Cache::get($cacheKey, 3600); // cache 1 hour
+        if ($cached !== false) return $cached;
+
         // In a highly scaled production DB, a separate `tags` aggregate table is better.
         // For this architecture, we extract directly or mock it based on the phase specs.
         $sql = "SELECT tags FROM images WHERE tags IS NOT NULL AND tags != '' ORDER BY downloads DESC LIMIT 100";
@@ -28,6 +32,8 @@ class Tag {
             return $b['count'] <=> $a['count'];
         });
 
-        return array_slice($tagCounts, 0, (int)$limit);
+        $final = array_slice($tagCounts, 0, (int)$limit);
+        Cache::set($cacheKey, $final);
+        return $final;
     }
 }

@@ -1,7 +1,13 @@
 <?php
 class Category {
     public static function getAll() {
-        return Database::fetchAll("SELECT * FROM categories ORDER BY name ASC");
+        $cacheKey = 'categories_all';
+        $data = Cache::get($cacheKey, 86400); // cache for 24 hours
+        if ($data !== false) return $data;
+
+        $data = Database::fetchAll("SELECT * FROM categories ORDER BY name ASC");
+        Cache::set($cacheKey, $data);
+        return $data;
     }
 
     public static function getBySlug($slug) {

@@ -11,7 +11,7 @@
         <main class="image-detail-main">
             <!-- Large Image Preview -->
             <div class="image-preview-container <?= $image['is_transparent'] ? 'checkerboard' : '' ?>" style="background-color: <?= Security::esc($image['dominant_color'] ?? '#f0f0f0') ?>;">
-                <?= ImageProcessor::generatePictureTag($image, 'detail-img') ?>
+                <?= ImageProcessor::generatePictureTag($image, 'detail-img', true) ?>
             </div>
 
             <!-- Header and Social Share -->

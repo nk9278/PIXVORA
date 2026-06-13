@@ -26,7 +26,7 @@ class ImageProcessor {
     /**
      * Generate responsive srcset markup
      */
-    public static function generatePictureTag($imageArray, $classes = '') {
+    public static function generatePictureTag($imageArray, $classes = '', $isLcp = false) {
         // Fallbacks if data doesn't exist
         $thumb = $imageArray['filepath_thumbnail'] ?? '';
         $small = $imageArray['filepath_small'] ?? $thumb;
@@ -37,6 +37,14 @@ class ImageProcessor {
         $alt = Security::esc($imageArray['alt_text'] ?? $imageArray['title'] ?? 'Image');
         $color = Security::esc($imageArray['dominant_color'] ?? '#e0e0e0');
 
+        $loading = $isLcp ? 'eager' : 'lazy';
+        $fetchpriority = $isLcp ? 'fetchpriority="high"' : '';
+
+        // Output explicit width/height to prevent Cumulative Layout Shift (CLS)
+        $w = $imageArray['width'] ?? '';
+        $h = $imageArray['height'] ?? '';
+        $dimensions = ($w && $h) ? "width=\"{$w}\" height=\"{$h}\"" : '';
+
         return '
         <picture>
             <source media="(min-width: 1200px)" srcset="' . BASE_URL . '/' . $large . ' 1x, ' . BASE_URL . '/' . $original . ' 2x" type="image/webp">
@@ -45,8 +53,10 @@ class ImageProcessor {
             <img src="' . BASE_URL . '/' . $small . '"
                  alt="' . $alt . '"
                  class="' . $classes . '"
-                 loading="lazy"
+                 loading="' . $loading . '"
                  decoding="async"
+                 ' . $fetchpriority . '
+                 ' . $dimensions . '
                  style="background-color: ' . $color . '; width: 100%; height: auto; display: block; object-fit: cover;">
         </picture>';
     }
