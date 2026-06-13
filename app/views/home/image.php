@@ -58,10 +58,10 @@
         <aside class="image-detail-sidebar">
             <div class="download-card glass" style="padding: 25px; border-radius: var(--radius-md); position:sticky; top: 100px;">
 
-                <!-- Main Download Button -->
-                <a href="<?= BASE_URL ?>/<?= $image['filepath_original'] ?>" download class="btn btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; font-size:1.1rem; padding: 15px;">
-                    <i data-lucide="download"></i> Download Free
-                </a>
+                <!-- Main Download Button Trigger -->
+                <button id="openDownloadModalBtn" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; font-size:1.1rem; padding: 15px;">
+                    <i data-lucide="download"></i> Download Image
+                </button>
                 <p style="text-align:center; font-size:0.85rem; color:var(--clr-text-muted); margin-top:10px;">
                     <i data-lucide="check-circle" style="width:12px; height:12px; vertical-align:middle;"></i> <?= Security::esc($image['image_license'] ?: 'Free for commercial use') ?>
                 </p>
@@ -133,3 +133,168 @@
         </div>
     </div>
 </section>
+
+<!-- Advanced Download Modal -->
+<div id="downloadModal" class="modal-overlay">
+    <div class="download-modal">
+        <button id="closeDownloadModalBtn" class="modal-close-btn" aria-label="Close modal">
+            <i data-lucide="x"></i>
+        </button>
+
+        <!-- Preview Pane -->
+        <div class="modal-preview-pane">
+            <div class="modal-preview-img-wrapper <?= $image['is_transparent'] ? 'checkerboard' : '' ?>" id="dynamicPreviewWrapper">
+                <img src="<?= BASE_URL ?>/<?= $image['filepath_medium'] ?? $image['filepath_original'] ?>" alt="Preview">
+            </div>
+            <div style="position:absolute; bottom:15px; background:rgba(0,0,0,0.6); color:#fff; padding:5px 12px; border-radius:50px; font-size:0.8rem;" id="previewBadge">Original</div>
+        </div>
+
+        <!-- Selection Pane -->
+        <div class="modal-content-pane">
+            <h2 style="margin-top:0; font-size:1.5rem; margin-bottom:5px;">Download Options</h2>
+            <p style="color:var(--clr-text-muted); font-size:0.9rem; margin-bottom:var(--space-md);">Select a format to automatically crop and optimize this image.</p>
+
+            <div class="ratio-grid" id="ratioOptions">
+                <!-- Original -->
+                <div class="ratio-card active" data-format="original" data-ratio="<?= $image['width'] / $image['height'] ?>" data-name="Original Image">
+                    <div class="ratio-icon"><i data-lucide="image"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">Original</div>
+                        <div style="font-size:0.8rem; color:#888;"><?= $image['width'] ?>x<?= $image['height'] ?></div>
+                    </div>
+                </div>
+                <!-- Social Media -->
+                <div class="ratio-card" data-format="instagram-post" data-ratio="1" data-name="Instagram Post">
+                    <div class="ratio-icon"><i data-lucide="instagram"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">IG Post</div>
+                        <div style="font-size:0.8rem; color:#888;">1080x1080</div>
+                    </div>
+                </div>
+                <div class="ratio-card" data-format="instagram-story" data-ratio="0.5625" data-name="Instagram Story">
+                    <div class="ratio-icon"><i data-lucide="smartphone"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">IG Story</div>
+                        <div style="font-size:0.8rem; color:#888;">1080x1920</div>
+                    </div>
+                </div>
+                <div class="ratio-card" data-format="youtube-thumbnail" data-ratio="1.777" data-name="YouTube Thumbnail">
+                    <div class="ratio-icon"><i data-lucide="youtube"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">YT Thumb</div>
+                        <div style="font-size:0.8rem; color:#888;">1280x720</div>
+                    </div>
+                </div>
+                <div class="ratio-card" data-format="pinterest-pin" data-ratio="0.666" data-name="Pinterest Pin">
+                    <div class="ratio-icon"><i data-lucide="pin"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">Pinterest</div>
+                        <div style="font-size:0.8rem; color:#888;">1000x1500</div>
+                    </div>
+                </div>
+                <div class="ratio-card" data-format="linkedin-banner" data-ratio="4" data-name="LinkedIn Banner">
+                    <div class="ratio-icon"><i data-lucide="linkedin"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">LinkedIn</div>
+                        <div style="font-size:0.8rem; color:#888;">1584x396</div>
+                    </div>
+                </div>
+                <!-- Wallpapers -->
+                <div class="ratio-card" data-format="mobile-wallpaper" data-ratio="0.45" data-name="Mobile Wallpaper">
+                    <div class="ratio-icon"><i data-lucide="smartphone"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">Mobile WP</div>
+                        <div style="font-size:0.8rem; color:#888;">1440x3200</div>
+                    </div>
+                </div>
+                <div class="ratio-card" data-format="desktop-wallpaper" data-ratio="1.777" data-name="Desktop Wallpaper">
+                    <div class="ratio-icon"><i data-lucide="monitor"></i></div>
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">Desktop WP</div>
+                        <div style="font-size:0.8rem; color:#888;">1920x1080</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:auto; padding-top:var(--space-md); border-top:1px solid var(--clr-border);">
+                <a href="<?= BASE_URL ?>/download/<?= Security::esc($image['slug']) ?>/original" id="finalDownloadBtn" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; padding:15px; font-size:1.1rem;">
+                    <i data-lucide="download"></i> Download <span id="btnFormatName">Original</span>
+                </a>
+                <p style="text-align:center; font-size:0.8rem; color:#888; margin-top:10px;">Generated instantly. Cache enabled for fast delivery.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('downloadModal');
+        const openBtn = document.getElementById('openDownloadModalBtn');
+        const closeBtn = document.getElementById('closeDownloadModalBtn');
+        const ratioCards = document.querySelectorAll('.ratio-card');
+        const previewWrapper = document.getElementById('dynamicPreviewWrapper');
+        const previewBadge = document.getElementById('previewBadge');
+        const finalDownloadBtn = document.getElementById('finalDownloadBtn');
+        const btnFormatName = document.getElementById('btnFormatName');
+        const imageSlug = "<?= Security::esc($image['slug']) ?>";
+        const baseUrl = "<?= BASE_URL ?>";
+
+        function updatePreview(ratio, name, formatKey) {
+            // Update UI active state
+            ratioCards.forEach(c => c.classList.remove('active'));
+            const activeCard = document.querySelector(`.ratio-card[data-format="${formatKey}"]`);
+            if(activeCard) activeCard.classList.add('active');
+
+            // Set wrapper aspect ratio visually (max width 280, max height 280)
+            let w = 280;
+            let h = 280;
+            if (ratio > 1) {
+                h = w / ratio;
+            } else {
+                w = h * ratio;
+            }
+            previewWrapper.style.width = `${w}px`;
+            previewWrapper.style.height = `${h}px`;
+
+            // Update Labels
+            previewBadge.textContent = name;
+            btnFormatName.textContent = name;
+
+            // Update Download Link
+            finalDownloadBtn.href = `${baseUrl}/download/${imageSlug}/${formatKey}`;
+        }
+
+        openBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Trigger initial layout calculation
+            const initialCard = document.querySelector('.ratio-card.active');
+            updatePreview(parseFloat(initialCard.dataset.ratio), initialCard.dataset.name, initialCard.dataset.format);
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        ratioCards.forEach(card => {
+            card.addEventListener('click', () => {
+                updatePreview(
+                    parseFloat(card.dataset.ratio),
+                    card.dataset.name,
+                    card.dataset.format
+                );
+            });
+        });
+
+        // Trigger download UX enhancements (close modal on click)
+        finalDownloadBtn.addEventListener('click', () => {
+            setTimeout(closeModal, 500);
+        });
+    });
+</script>

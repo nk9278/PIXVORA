@@ -30,4 +30,8 @@ session_start();
 
 // Route the request
 $router = new Router();
+
+// Phase 6 explicit download route
+$router->add('download/{slug}/{format}', ['controller' => 'DownloadController', 'action' => 'process']);
+
 $router->dispatch($_SERVER['REQUEST_URI']);
