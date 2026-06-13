@@ -150,7 +150,7 @@
                 <li style="padding: 15px 25px 5px; font-size: 0.75rem; text-transform: uppercase; color: #555; font-weight: bold;">System</li>
                 <li><a href="<?= BASE_URL ?>/admin/seo"><i data-lucide="search"></i> SEO Settings</a></li>
                 <li><a href="<?= BASE_URL ?>/admin/homepage"><i data-lucide="layout-template"></i> Homepage UI</a></li>
-                <li><a href="<?= BASE_URL ?>/admin/blog"><i data-lucide="file-text"></i> Blog CMS</a></li>
+                <li><a href="<?= BASE_URL ?>/admin/manage-blog"><i data-lucide="file-text"></i> Blog CMS</a></li>
                 <li><a href="<?= BASE_URL ?>/admin/settings"><i data-lucide="settings"></i> Settings</a></li>
                 <li style="margin-top: 20px;"><a href="<?= BASE_URL ?>/admin/logout" style="color: #E63946;"><i data-lucide="log-out"></i> Logout</a></li>
             </ul>

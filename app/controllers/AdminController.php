@@ -179,4 +179,56 @@ class AdminController {
         $content_view = APP_DIR . '/views/admin/seo_settings.php';
         require_once APP_DIR . '/views/layouts/admin.php';
     }
+
+    public function manageBlog() {
+        Security::requireAdmin();
+        $posts = Blog::getLatest(50, false); // Get drafts too
+        $content_view = APP_DIR . '/views/admin/manage_blog.php';
+        require_once APP_DIR . '/views/layouts/admin.php';
+    }
+
+    public function editBlog() {
+        Security::requireAdmin();
+
+        $error = '';
+        $success = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!Security::verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+                $error = 'Invalid security token.';
+            } else {
+                $slug = empty($_POST['slug']) ? ImageProcessor::cleanFilename($_POST['title']) : ImageProcessor::cleanFilename($_POST['slug']);
+
+                $data = [
+                    ':title' => Security::cleanInput($_POST['title']),
+                    ':slug' => $slug,
+                    ':content' => $_POST['content'] ?? '', // TinyMCE content allows HTML
+                    ':category' => Security::cleanInput($_POST['category']),
+                    ':tags' => Security::cleanInput($_POST['tags']),
+                    ':featured_image' => Security::cleanInput($_POST['featured_image']),
+                    ':author_name' => Security::cleanInput($_POST['author_name']),
+                    ':status' => Security::cleanInput($_POST['status']),
+                    ':meta_title' => Security::cleanInput($_POST['meta_title']),
+                    ':meta_description' => Security::cleanInput($_POST['meta_description']),
+                    ':focus_keywords' => Security::cleanInput($_POST['focus_keywords']),
+                    ':canonical_url' => Security::cleanInput($_POST['canonical_url']),
+                    ':og_title' => Security::cleanInput($_POST['og_title']),
+                    ':og_description' => Security::cleanInput($_POST['og_description']),
+                    ':twitter_title' => Security::cleanInput($_POST['twitter_title']),
+                    ':twitter_description' => Security::cleanInput($_POST['twitter_description']),
+                    ':featured_image_alt' => Security::cleanInput($_POST['featured_image_alt'])
+                ];
+
+                try {
+                    Blog::create($data);
+                    $success = 'Blog post saved successfully.';
+                } catch (Exception $e) {
+                    $error = 'Database error: ' . $e->getMessage();
+                }
+            }
+        }
+
+        $content_view = APP_DIR . '/views/admin/edit_blog.php';
+        require_once APP_DIR . '/views/layouts/admin.php';
+    }
 }

@@ -43,6 +43,11 @@ $router->add('search', ['controller' => 'SearchController', 'action' => 'index']
 $router->add('search/{query}', ['controller' => 'SearchController', 'action' => 'index']);
 $router->add('api/search-suggest', ['controller' => 'SearchController', 'action' => 'suggest']);
 
+// Phase 10 Blog CMS routes
+$router->add('blog', ['controller' => 'BlogController', 'action' => 'index']);
+$router->add('blog/category/{category}', ['controller' => 'BlogController', 'action' => 'category']);
+$router->add('blog/{slug}', ['controller' => 'BlogController', 'action' => 'article']);
+
 // Phase 9 Programmatic SEO & Sitemap routes
 $router->add('tag/{slug}', ['controller' => 'SeoController', 'action' => 'tag']);
 $router->add('collection/{slug}', ['controller' => 'SeoController', 'action' => 'landing']);

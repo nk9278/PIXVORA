@@ -104,10 +104,24 @@ CREATE TABLE IF NOT EXISTS `blogs` (
     `title` VARCHAR(255) NOT NULL,
     `slug` VARCHAR(255) NOT NULL UNIQUE,
     `content` LONGTEXT,
+
     `meta_title` VARCHAR(255),
     `meta_description` TEXT,
+    `focus_keywords` VARCHAR(255),
+    `canonical_url` VARCHAR(255),
+    `og_title` VARCHAR(255),
+    `og_description` TEXT,
+    `twitter_title` VARCHAR(255),
+    `twitter_description` TEXT,
+    `featured_image_alt` VARCHAR(255),
+
     `featured_image` VARCHAR(255),
+    `category` VARCHAR(100),
     `tags` VARCHAR(255),
+    `author_name` VARCHAR(100) DEFAULT 'Pixvora Team',
+    `status` VARCHAR(20) DEFAULT 'published',
+    `views` INT DEFAULT 0,
+
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
