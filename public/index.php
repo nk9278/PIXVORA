@@ -22,10 +22,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// Initialize configuration and router
-require_once APP_DIR . '/config/config.php';
-
-// Front Controller Session Start (after config is loaded so ini_set applies properly)
+// Front Controller Session Start
 session_start();
 
 // Route the request

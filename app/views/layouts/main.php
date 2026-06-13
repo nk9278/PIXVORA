@@ -18,6 +18,9 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
@@ -27,13 +30,26 @@
                 <img src="<?= BASE_URL ?>/assets/img/logo.png" alt="Pixvora Logo">
             </a>
 
-            <nav class="nav-links">
-                <a href="<?= BASE_URL ?>/free-ai-images/">AI Images</a>
-                <a href="<?= BASE_URL ?>/transparent-png/">Transparent PNG</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="<?= BASE_URL ?>/">Home</a>
+                <a href="<?= BASE_URL ?>/images/">Images</a>
                 <a href="<?= BASE_URL ?>/wallpapers/">Wallpapers</a>
+                <a href="<?= BASE_URL ?>/transparent-png/">PNG</a>
+                <a href="<?= BASE_URL ?>/categories/">Categories</a>
+                <a href="<?= BASE_URL ?>/blog/">Blog</a>
+                <a href="<?= BASE_URL ?>/about/">About</a>
+                <a href="<?= BASE_URL ?>/contact/">Contact</a>
             </nav>
 
-            <a href="#" class="btn btn-primary">Join Free</a>
+            <div class="nav-actions">
+                <button style="background:none;border:none;cursor:pointer;"><i data-lucide="search"></i></button>
+                <button style="background:none;border:none;cursor:pointer;"><i data-lucide="moon"></i></button>
+                <a href="#" class="btn btn-primary" style="display:none; @media (min-width: 768px){display:inline-block;}">Join Free</a>
+            </div>
         </div>
     </header>
 
@@ -90,5 +106,17 @@
         </div>
     </footer>
 
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

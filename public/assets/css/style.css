@@ -102,14 +102,100 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-links {
     display: none;
+    align-items: center;
 }
 
-@media (min-width: 768px) {
+.mobile-menu-btn {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--clr-black);
+}
+
+@media (min-width: 1024px) {
     .nav-links {
         display: flex;
         gap: var(--space-lg);
         font-weight: 600;
     }
+    .mobile-menu-btn {
+        display: none;
+    }
+}
+
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--clr-white);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-soft);
+    border-top: 1px solid var(--clr-border);
+}
+
+@media (min-width: 1024px) {
+    .nav-links.active {
+        position: static;
+        flex-direction: row;
+        width: auto;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+    }
+}
+
+.nav-links a {
+    transition: var(--transition-fast);
+}
+.nav-links a:hover {
+    color: var(--clr-accent-red);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+/* Blog Cards */
+.blog-card {
+    background: var(--clr-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+}
+
+.blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.blog-card-image {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.blog-card-content {
+    padding: var(--space-md);
+}
+
+.blog-card-content h3 {
+    margin-bottom: var(--space-sm);
+    font-size: 1.2rem;
+}
+
+.blog-card-content p {
+    color: var(--clr-text-muted);
+    font-size: 0.95rem;
+    margin-bottom: var(--space-md);
 }
 
 /* Buttons */
@@ -146,24 +232,82 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--clr-white);
 }
 
-/* Hero Section */
+/* Split Hero Section */
 .hero {
     padding: var(--space-xl) 0;
-    text-align: center;
     background: linear-gradient(180deg, var(--clr-soft-white) 0%, var(--clr-white) 100%);
+    overflow: hidden;
 }
 
-.hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.hero-content h1 {
+    font-size: clamp(3rem, 5vw, 4.5rem);
     margin-bottom: var(--space-md);
     letter-spacing: -0.02em;
+    line-height: 1.1;
 }
 
-.hero p {
+.hero-content p {
     font-size: 1.25rem;
     color: var(--clr-text-muted);
-    max-width: 600px;
-    margin: 0 auto var(--space-lg);
+    margin-bottom: var(--space-lg);
+    max-width: 500px;
+}
+
+.hero-visual {
+    position: relative;
+    height: 400px;
+}
+
+@media (min-width: 1024px) {
+    .hero-visual { height: 600px; }
+}
+
+.hero-visual-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    height: 100%;
+}
+
+.hero-visual-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    animation: float 20s infinite linear;
+}
+
+.hero-visual-col:nth-child(2) {
+    animation-direction: reverse;
+    animation-duration: 25s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-50px); }
+    100% { transform: translateY(0); }
+}
+
+.hero-visual-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    background: #e0e0e0;
+}
+.hero-visual-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .search-box {
@@ -187,6 +331,15 @@ h1, h2, h3, h4, h5, h6 {
 .search-input:focus {
     border-color: var(--clr-black);
     box-shadow: var(--shadow-hover);
+}
+
+/* Checkerboard for PNGs */
+.checkerboard {
+    background-color: #ffffff;
+    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+                      linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
 }
 
 /* Sections */
@@ -255,6 +408,78 @@ h1, h2, h3, h4, h5, h6 {
 
 .image-card:hover .image-overlay {
     opacity: 1;
+}
+
+/* Slider and Categories */
+.category-card {
+    min-width: 150px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--clr-white);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--clr-border);
+}
+
+.category-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--clr-accent-red);
+}
+
+.featured-category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .featured-category-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .featured-category-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.featured-category-card {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    height: 250px;
+}
+
+.featured-category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.featured-category-card:hover img {
+    transform: scale(1.05);
+}
+
+.featured-category-content {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-md);
+    color: var(--clr-white);
 }
 
 /* Category Pills */
