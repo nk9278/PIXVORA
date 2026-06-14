@@ -1,8 +1,8 @@
 <?php
 // Define constants
-define('ROOT_DIR', dirname(__DIR__));
+define('ROOT_DIR', __DIR__);
 define('APP_DIR', ROOT_DIR . '/app');
-define('PUBLIC_DIR', ROOT_DIR . '/public');
+define('PUBLIC_DIR', ROOT_DIR);
 // BASE_URL defined in config
 
 // Basic autoloader

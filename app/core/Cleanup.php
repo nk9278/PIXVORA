@@ -10,7 +10,7 @@ class Cleanup {
     }
 
     private static function clearStaleQueryCache() {
-        $cacheDir = APP_DIR . '/cache/query';
+        $cacheDir = ROOT_DIR . '/cache/query';
         if (!is_dir($cacheDir)) return;
 
         $files = glob($cacheDir . '/*.cache');

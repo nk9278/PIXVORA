@@ -4,7 +4,7 @@ class Cache {
 
     private static function init() {
         if (self::$cacheDir === null) {
-            self::$cacheDir = APP_DIR . '/cache/query';
+            self::$cacheDir = ROOT_DIR . '/cache/query';
             if (!is_dir(self::$cacheDir)) {
                 mkdir(self::$cacheDir, 0755, true);
             }
