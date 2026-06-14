@@ -4,6 +4,13 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
+    # Prevent script execution in uploads directory (MUST be before bypass rule)
+    RewriteRule ^uploads/.*\.(php|php4|php5|php7|php8|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi)$ - [F,L,NC]
+
+    # Bypass rewrite engine completely for static assets
+    RewriteRule ^(assets|uploads)/ - [L]
+    RewriteRule ^(favicon\.ico|robots\.txt|sitemap.*\.xml)$ - [L]
+
     # Enforce trailing slashes (SEO requirement)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -15,6 +22,11 @@ Options -Indexes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
+
+# Explicit MIME Types
+AddType text/css .css
+AddType application/javascript .js
+AddType image/webp .webp
 
 # Security Headers
 <IfModule mod_headers.c>
@@ -36,10 +48,6 @@ Options -Indexes
 # Block access to application core
 RewriteRule ^app/ - [F,L,NC]
 RewriteRule ^config/ - [F,L,NC]
-
-# Prevent script execution in uploads directory
-# Since <Directory> cannot be used in .htaccess, we use RewriteRule instead to block direct execution
-RewriteRule ^uploads/.*\.(php|php4|php5|php7|php8|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi)$ - [F,L,NC]
 
 # Gzip / Deflate Compression
 <IfModule mod_deflate.c>

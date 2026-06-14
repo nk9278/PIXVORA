@@ -1,0 +1,2 @@
+[2026-06-14 06:31:04] Uncaught Exception: Undefined constant "BASE_URL" in /app/app/core/Router.php on line 18
+[2026-06-14 06:32:22] Uncaught Exception: Undefined constant "BASE_URL" in /app/app/core/Router.php on line 18
