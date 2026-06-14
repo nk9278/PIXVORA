@@ -14,10 +14,13 @@ class Router {
     public function dispatch($url) {
         $url = parse_url($url, PHP_URL_PATH);
 
+        // Trim leading and trailing slashes for clean matching
+        $url = trim($url, '/');
+
         // Remove base url if it exists in path (for local subfolder dev)
-        $base_path = parse_url(BASE_URL, PHP_URL_PATH);
+        $base_path = trim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');
         if ($base_path && strpos($url, $base_path) === 0) {
-            $url = substr($url, strlen($base_path));
+            $url = trim(substr($url, strlen($base_path)), '/');
         }
 
         // Default home route

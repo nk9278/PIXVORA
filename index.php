@@ -52,6 +52,13 @@ session_start();
 // Route the request
 $router = new Router();
 
+// Phase 2 Default Routes
+$router->add('', ['controller' => 'HomeController', 'action' => 'index']);
+
+// Generic fallback routes
+$router->add('{controller}/{action}');
+$router->add('{controller}/{id:\d+}/{action}');
+
 // Phase 6 explicit download route
 $router->add('download/{slug}/{format}', ['controller' => 'DownloadController', 'action' => 'process']);
 
